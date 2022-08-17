@@ -22,6 +22,7 @@ public class GarageController {
 
     @PostMapping(value = "/park")
     public ResponseEntity<VehicleResponse> park(@RequestBody VehicleRequest request) {
+        log.info("park() method executed with parameter request{}: ", request);
         VehicleRequestDto requestDto = modelMapper.map(request, VehicleRequestDto.class);
         if (requestDto != null) {
             VehicleResponseDto responseDto = garageService.saveVehicle(requestDto);
@@ -33,6 +34,7 @@ public class GarageController {
     @PostMapping(value = "/leave")
     public void leave(@RequestParam String order,
                       @RequestParam Integer vehicleNumber) {
+        log.info("leave() method executed with parameters order{}, vehicleNumber{}: ", order, vehicleNumber);
         garageService.leave(order, vehicleNumber);
     }
 }

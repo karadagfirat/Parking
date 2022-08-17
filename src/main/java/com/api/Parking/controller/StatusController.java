@@ -26,6 +26,7 @@ public class StatusController {
 
     @GetMapping(value = "/status")
     public ResponseEntity<List<StatusResponse>> getStatus(@RequestBody StatusRequest request) {
+        log.info("leave() method executed with parameter request{} : ", request);
         StatusRequestDto requestDto = modelMapper.map(request, StatusRequestDto.class);
         if (requestDto != null) {
             List<StatusResponse> responseDtoList = garageService.getLastStatus();

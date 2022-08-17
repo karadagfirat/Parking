@@ -46,10 +46,12 @@ public class GarageServiceImpl implements GarageService {
 
     @Override
     public VehicleResponseDto saveVehicle(VehicleRequestDto requestDto) {
+        log.info("saveVehicle() method executed with requestDto{}: ", requestDto);
         VehicleResponseDto responseDto = new VehicleResponseDto();
         Vehicle vehicle = modelMapper.map(requestDto, Vehicle.class);
         setVehicleSlot(requestDto, vehicle);
 
+        log.info("validations running for saveVehicle() method");
         if (validation.checkVehicleRequest(requestDto) != null) {
             responseDto = validation.checkVehicleRequest(requestDto);
             return responseDto;
@@ -59,6 +61,7 @@ public class GarageServiceImpl implements GarageService {
             return responseDto;
         }
 
+        log.info("saving vehicle to the garage list");
         for (int i = 0; i < requestDto.getVehicleType().getSlot(); i++) {
             garageList.get(count).setVehicle(vehicle);
             garageList.get(count).setStatus(false);
@@ -71,6 +74,7 @@ public class GarageServiceImpl implements GarageService {
 
     @Override
     public List<StatusResponse> getLastStatus() {
+        log.info("getLastStatus() method executed");
         StatusResponse responseDto = new StatusResponse();
         for (int i = 0; i < garageList.size(); i++) {
             if (garageList.get(i).getVehicle() != null) {
@@ -80,6 +84,7 @@ public class GarageServiceImpl implements GarageService {
                 responseDtoList.add(responseDto);
             }
         }
+        log.info("removing duplicated records while getting last statu");
         Set<StatusResponse> responseDtos = new HashSet<>(responseDtoList); // hashset burda da sıraları karıştırıyor.
         Set<Garage> responseDtos2 = new HashSet<>(garageList);
         List<StatusResponse> statusResponseList = new ArrayList<>(responseDtos);
@@ -89,11 +94,13 @@ public class GarageServiceImpl implements GarageService {
 
     @Override
     public void leave(String order, Integer vehicleNumber) {
+        log.info("leave() method executed with parameters order{}, vehicleNumber{} : ",order , vehicleNumber);
         Set<Garage> garageSet = new HashSet<>(garageList); // hashset sıraların yerini karıştırıyor. bu yüzden doğru data silinmiyor.
         List<Garage> garageArrayList = new ArrayList<>(garageSet);
         Garage removedVehicle = garageArrayList.get(vehicleNumber);
         for (int i = 0; i < garageList.size(); i++) {
             if (garageList.get(i).getVehicle().getId().equals(removedVehicle.getVehicle().getId())) {
+                log.info("removing vehicle from record with id{}: ", removedVehicle.getVehicle().getId());
                 garageList.get(i).setStatus(true);
                 garageList.get(i).setVehicle(null);
             }
@@ -106,6 +113,7 @@ public class GarageServiceImpl implements GarageService {
             slotList.add(Long.valueOf(countSlot + 1));
             countSlot++;
         }
+        log.info("setVehicleSlot() method setting vehicle slot with id{}: and slots{}: ", vehicle.getId(), vehicle.getSlot());
         vehicle.setSlot(slotList);
     }
 }
