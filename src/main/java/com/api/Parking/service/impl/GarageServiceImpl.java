@@ -89,12 +89,16 @@ public class GarageServiceImpl implements GarageService {
         log.info("leave() method executed with parameters order{}, vehicleNumber{} : ",order , vehicleNumber);
         getLastStatus();
         List<Garage> garageArrayList = new ArrayList<>(garageMap.values());
-        Garage removedVehicle = garageArrayList.get(vehicleNumber);
+        Garage removedVehicle = new Garage();
+        for (Garage garage : garageArrayList) {
+            if (Objects.equals(garage.getId(), Long.valueOf(vehicleNumber))) {
+                removedVehicle = garage;
+            }
+        }
+
         for (int i = 0; i < garageList.size(); i++) {
             if (garageList.get(i).getVehicle() != null
                     && garageList.get(i).getVehicle().getId() != null
-                    && removedVehicle.getVehicle() != null
-                    && removedVehicle.getVehicle().getId() != null
                     && garageList.get(i).getVehicle().getId().equals(removedVehicle.getVehicle().getId())) {
                 log.info("removing vehicle from record with id{}: ", removedVehicle.getVehicle().getId());
                 garageList.get(i).setStatus(true);
