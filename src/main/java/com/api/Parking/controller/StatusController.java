@@ -1,6 +1,7 @@
 package com.api.Parking.controller;
 
 import com.api.Parking.dto.request.StatusRequestDto;
+import com.api.Parking.entity.Garage;
 import com.api.Parking.service.GarageService;
 import com.api.Parking.vo.request.StatusRequest;
 import com.api.Parking.vo.response.StatusResponse;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/status")
@@ -24,14 +26,10 @@ public class StatusController {
     private final ModelMapper modelMapper;
     private final GarageService garageService;
 
-    @GetMapping(value = "/status")
-    public ResponseEntity<List<StatusResponse>> getStatus(@RequestBody StatusRequest request) {
+    @GetMapping(value = "/status1")
+    public ResponseEntity<Map<String, Garage>> getStatus1(@RequestBody StatusRequest request) {
         log.info("leave() method executed with parameter request{} : ", request);
-        StatusRequestDto requestDto = modelMapper.map(request, StatusRequestDto.class);
-        if (requestDto != null) {
-            List<StatusResponse> responseDtoList = garageService.getLastStatus();
-            return ResponseEntity.ok(responseDtoList);
-        }
-        return null;
+        Map<String, Garage> garageMap = garageService.getLastStatus();
+        return ResponseEntity.ok(garageMap);
     }
 }

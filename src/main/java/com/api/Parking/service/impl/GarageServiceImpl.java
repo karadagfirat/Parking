@@ -1,6 +1,7 @@
 package com.api.Parking.service.impl;
 
 import com.api.Parking.dto.request.VehicleRequestDto;
+import com.api.Parking.dto.response.StatusResponseDto;
 import com.api.Parking.dto.response.VehicleResponseDto;
 import com.api.Parking.entity.Garage;
 import com.api.Parking.entity.Vehicle;
@@ -13,10 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -28,7 +27,7 @@ public class GarageServiceImpl implements GarageService {
     private static Long SLOT = 10L;
     private static int count = 0;
     private static int countSlot = 0;
-    private static List<StatusResponse> responseDtoList = new ArrayList<>();
+    private static Map<String, Garage> garageMap = new HashMap<>();
 
     @PostConstruct
     public void init() {
@@ -73,23 +72,15 @@ public class GarageServiceImpl implements GarageService {
     }
 
     @Override
-    public List<StatusResponse> getLastStatus() {
+    public Map<String, Garage> getLastStatus() {
         log.info("getLastStatus() method executed");
-        StatusResponse responseDto = new StatusResponse();
-        for (int i = 0; i < garageList.size(); i++) {
-            if (garageList.get(i).getVehicle() != null) {
-                responseDto.setColor(garageList.get(i).getVehicle().getColor());
-                responseDto.setPlate(garageList.get(i).getVehicle().getPlate());
-                responseDto.setSlots(garageList.get(i).getVehicle().getSlot());
-                responseDtoList.add(responseDto);
+        garageMap.clear();
+        for (Garage garage : garageList) {
+            if (garage.getVehicle() != null) {
+                garageMap.put(garage.getVehicle().getId(), garage);
             }
         }
-        log.info("removing duplicated records while getting last statu");
-        Set<StatusResponse> responseDtos = new HashSet<>(responseDtoList); // hashset burda da sıraları karıştırıyor.
-        Set<Garage> responseDtos2 = new HashSet<>(garageList);
-        List<StatusResponse> statusResponseList = new ArrayList<>(responseDtos);
-        responseDtoList.clear();
-        return statusResponseList;
+        return garageMap;
     }
 
     @Override
