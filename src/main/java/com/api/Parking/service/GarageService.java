@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface GarageService {
     VehicleResponseDto saveVehicle(VehicleRequestDto requestDto);
-    List<StatusResponse> getGarage();
+    List<StatusResponse> getLastStatus();
     void leave(String order, Integer vehicleNumber);
 }

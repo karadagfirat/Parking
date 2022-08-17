@@ -28,7 +28,7 @@ public class StatusController {
     public ResponseEntity<List<StatusResponse>> getStatus(@RequestBody StatusRequest request) {
         StatusRequestDto requestDto = modelMapper.map(request, StatusRequestDto.class);
         if (requestDto != null) {
-            List<StatusResponse> responseDtoList = garageService.getGarage();
+            List<StatusResponse> responseDtoList = garageService.getLastStatus();
             return ResponseEntity.ok(responseDtoList);
         }
         return null;

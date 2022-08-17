@@ -70,7 +70,7 @@ public class GarageServiceImpl implements GarageService {
     }
 
     @Override
-    public List<StatusResponse> getGarage() {
+    public List<StatusResponse> getLastStatus() {
         StatusResponse responseDto = new StatusResponse();
         for (int i = 0; i < garageList.size(); i++) {
             if (garageList.get(i).getVehicle() != null) {
