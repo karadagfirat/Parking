@@ -1,7 +1,6 @@
 package com.api.Parking.controller;
 
 import com.api.Parking.dto.request.StatusRequestDto;
-import com.api.Parking.dto.response.StatusResponseDto;
 import com.api.Parking.service.GarageService;
 import com.api.Parking.vo.request.StatusRequest;
 import com.api.Parking.vo.response.StatusResponse;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/status")
