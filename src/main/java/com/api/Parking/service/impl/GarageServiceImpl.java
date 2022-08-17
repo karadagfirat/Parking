@@ -80,20 +80,26 @@ public class GarageServiceImpl implements GarageService {
                 garageMap.put(garage.getVehicle().getId(), garage);
             }
         }
+        System.out.println(SLOT);
         return garageMap;
     }
 
     @Override
     public void leave(String order, Integer vehicleNumber) {
         log.info("leave() method executed with parameters order{}, vehicleNumber{} : ",order , vehicleNumber);
-        Set<Garage> garageSet = new HashSet<>(garageList); // hashset sıraların yerini karıştırıyor. bu yüzden doğru data silinmiyor.
-        List<Garage> garageArrayList = new ArrayList<>(garageSet);
+        getLastStatus();
+        List<Garage> garageArrayList = new ArrayList<>(garageMap.values());
         Garage removedVehicle = garageArrayList.get(vehicleNumber);
         for (int i = 0; i < garageList.size(); i++) {
-            if (garageList.get(i).getVehicle().getId().equals(removedVehicle.getVehicle().getId())) {
+            if (garageList.get(i).getVehicle() != null
+                    && garageList.get(i).getVehicle().getId() != null
+                    && removedVehicle.getVehicle() != null
+                    && removedVehicle.getVehicle().getId() != null
+                    && garageList.get(i).getVehicle().getId().equals(removedVehicle.getVehicle().getId())) {
                 log.info("removing vehicle from record with id{}: ", removedVehicle.getVehicle().getId());
                 garageList.get(i).setStatus(true);
                 garageList.get(i).setVehicle(null);
+                SLOT++;
             }
         }
     }

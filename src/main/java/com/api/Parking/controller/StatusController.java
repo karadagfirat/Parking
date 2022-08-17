@@ -26,7 +26,7 @@ public class StatusController {
     private final ModelMapper modelMapper;
     private final GarageService garageService;
 
-    @GetMapping(value = "/status1")
+    @GetMapping(value = "/status")
     public ResponseEntity<Map<String, Garage>> getStatus1(@RequestBody StatusRequest request) {
         log.info("leave() method executed with parameter request{} : ", request);
         Map<String, Garage> garageMap = garageService.getLastStatus();
