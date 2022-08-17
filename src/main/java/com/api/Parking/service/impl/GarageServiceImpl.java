@@ -6,6 +6,7 @@ import com.api.Parking.dto.response.VehicleResponseDto;
 import com.api.Parking.entity.Garage;
 import com.api.Parking.entity.Vehicle;
 import com.api.Parking.service.GarageService;
+import com.api.Parking.service.StatusService;
 import com.api.Parking.validation.Validation;
 import com.api.Parking.vo.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,14 @@ import java.util.*;
 @Slf4j
 public class GarageServiceImpl implements GarageService {
 
-    private final ModelMapper modelMapper;
-    private final Validation validation;
-    private static List<Garage> garageList = new ArrayList<>();
-    private static Long SLOT = 10L;
-    private static int count = 0;
-    private static int countSlot = 0;
-    private static Map<String, Garage> garageMap = new HashMap<>();
+    protected final ModelMapper modelMapper;
+    protected final Validation validation;
+    protected final StatusService statusService;
+    protected static List<Garage> garageList = new ArrayList<>();
+    protected static Long SLOT = 10L;
+    protected static int count = 0;
+    protected static int countSlot = 0;
+    protected static Map<String, Garage> garageMap = new HashMap<>();
 
     @PostConstruct
     public void init() {
@@ -72,22 +74,9 @@ public class GarageServiceImpl implements GarageService {
     }
 
     @Override
-    public Map<String, Garage> getLastStatus() {
-        log.info("getLastStatus() method executed");
-        garageMap.clear();
-        for (Garage garage : garageList) {
-            if (garage.getVehicle() != null) {
-                garageMap.put(garage.getVehicle().getId(), garage);
-            }
-        }
-        System.out.println(SLOT);
-        return garageMap;
-    }
-
-    @Override
     public void leave(String order, Integer vehicleNumber) {
         log.info("leave() method executed with parameters order{}, vehicleNumber{} : ",order , vehicleNumber);
-        getLastStatus();
+        statusService.getLastStatus();
         List<Garage> garageArrayList = new ArrayList<>(garageMap.values());
         Garage removedVehicle = new Garage();
         for (Garage garage : garageArrayList) {

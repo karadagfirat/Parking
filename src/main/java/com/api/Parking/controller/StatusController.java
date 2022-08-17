@@ -3,6 +3,7 @@ package com.api.Parking.controller;
 import com.api.Parking.dto.request.StatusRequestDto;
 import com.api.Parking.entity.Garage;
 import com.api.Parking.service.GarageService;
+import com.api.Parking.service.StatusService;
 import com.api.Parking.vo.request.StatusRequest;
 import com.api.Parking.vo.response.StatusResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +24,12 @@ import java.util.Map;
 @Slf4j
 public class StatusController {
 
-    private final ModelMapper modelMapper;
-    private final GarageService garageService;
+    private final StatusService statusService;
 
     @GetMapping(value = "/status")
-    public ResponseEntity<Map<String, Garage>> getStatus1(@RequestBody StatusRequest request) {
+    public ResponseEntity<Map<String, Garage>> getStatus(@RequestBody StatusRequest request) {
         log.info("leave() method executed with parameter request{} : ", request);
-        Map<String, Garage> garageMap = garageService.getLastStatus();
+        Map<String, Garage> garageMap = statusService.getLastStatus();
         return ResponseEntity.ok(garageMap);
     }
 }
