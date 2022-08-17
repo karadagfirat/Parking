@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-import static com.api.Parking.service.impl.GarageServiceImpl.SLOT;
 import static com.api.Parking.service.impl.GarageServiceImpl.garageList;
 
 @Service
@@ -26,7 +25,6 @@ public class StatusServiceImpl implements StatusService {
                 garageMapStatus.put(garage.getVehicle().getId(), garage);
             }
         }
-        System.out.println(SLOT);
         return garageMapStatus;
     }
 
