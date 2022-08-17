@@ -28,7 +28,7 @@ public class GarageController {
             VehicleResponseDto responseDto = garageService.saveVehicle(requestDto);
             return ResponseEntity.ok(modelMapper.map(responseDto, VehicleResponse.class));
         }
-        return ResponseEntity.ok(new VehicleResponse());
+        return null;
     }
 
     @PostMapping(value = "/leave")
